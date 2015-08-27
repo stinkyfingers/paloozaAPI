@@ -12,9 +12,12 @@ exports.create = function(req, res) {
 
 exports.get = function(req, res) {
 	var id = req.params.id;
-	console.log(id);
 	challenge.findById(id).then(function(c){
-		res.json(c);
+		if (c.length > 0){
+			res.json(c[0]);
+			return;
+		}
+		res.send('no results');
 	});
 };
 
