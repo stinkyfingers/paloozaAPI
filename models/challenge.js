@@ -4,8 +4,8 @@ var mongoose = require('mongoose'),
 	ObjectID = require('bson-objectid');
 var mongo = require('mongodb');
 
-
-mongoose.connect('mongodb://localhost:27017/paloozaapi');
+var mongo_uri = 'mongodb://' + process.env.MONGOLAB_URI + '/paloozaapi' || 'mongodb://localhost:27017/paloozaapi';
+mongoose.connect(mongo_uri);
 
 var challengeSchema = mongoose.Schema({
 	// _id: BSON.ObjectID,
