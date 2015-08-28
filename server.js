@@ -15,6 +15,10 @@ app.use(
   }
 );
 
+app.get(/\/docs\/public\/?.*/, restify.serveStatic({
+  directory: './'
+}));
+
 // var http = require('http'),
 // 	dispatcher = require('httpdispatcher');
 
@@ -58,7 +62,7 @@ app.put('/challenge', challenge.update);
 app.del('/challenge', challenge.remove);
 
 
-
-app.listen(3000, function(){
+var port = process.env.PORT || 3000;
+app.listen(port, function(){
 	console.log('running');
 });
