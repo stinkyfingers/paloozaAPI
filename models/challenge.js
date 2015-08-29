@@ -4,8 +4,15 @@ var mongoose = require('mongoose'),
 	ObjectID = require('bson-objectid');
 var mongo = require('mongodb');
 
-var mongo_uri = 'mongodb://' + process.env.MONGOLAB_URI + '/paloozaapi' || 'mongodb://localhost:27017/paloozaapi';
-mongoose.connect(mongo_uri);
+//connect
+var mongo_uri = process.env.MONGOLAB_URI;
+var mgo;
+if (mongo_uri  === undefined || mongo_uri  === ''){
+	mgo = 'mongodb://localhost:27017/paloozaapi';
+}else{
+	mgo = 'mongodb://'+mongo_uri + '/paloozaapi';
+}
+mongoose.connect('mongodb://localhost:27017/paloozaapi');
 
 var challengeSchema = mongoose.Schema({
 	// _id: BSON.ObjectID,
