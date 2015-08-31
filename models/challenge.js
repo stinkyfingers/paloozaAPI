@@ -12,7 +12,7 @@ if (mongo_uri  === undefined || mongo_uri  === ''){
 }else{
 	mgo = 'mongodb://'+mongo_uri + '/paloozaapi';
 }
-mongoose.connect('mongodb://localhost:27017/paloozaapi');
+mongoose.connect(mgo);
 
 var challengeSchema = mongoose.Schema({
 	// _id: BSON.ObjectID,
