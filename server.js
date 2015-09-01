@@ -17,12 +17,12 @@ app.get(/\/docs\/public\/?.*/, restify.serveStatic({
 
 app.get('/', main.test);
 app.get('/challenges', challenge.findAll);
+app.post('/challenge/delete', challenge.remove);
 app.get('/challenge/:id', challenge.get);
 app.post('/challenge/find', challenge.find);
 app.post('/challenge/static', challenge.findStatic);
 app.post('/challenge', challenge.create);
 app.put('/challenge', challenge.update);
-app.del('/challenge', challenge.remove);
 
 
 var port = process.env.PORT;
