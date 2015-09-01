@@ -1,6 +1,6 @@
 var challenge = require('../models/challenge');
+var utility = require('../controllers/utility');
 var mongoose = require('mongoose');
-
 
 exports.create = function(req, res) {
 	var c = new challenge(req.body);

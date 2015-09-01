@@ -1,18 +1,14 @@
 var mongoose = require('mongoose'),
 	bson = require('bson'),
 	BSON = bson.BSONPure.BSON,
-	ObjectID = require('bson-objectid');
+	ObjectID = require('bson-objectid'),
+	utility = require('../controllers/utility');
+
 var mongo = require('mongodb');
 
 //connect
-var mongo_uri = process.env.MONGOLAB_URI;
-var mgo;
-if (mongo_uri  === undefined || mongo_uri  === ''){
-	mgo = 'mongodb://localhost:27017/paloozaapi';
-}else{
-	mgo = 'mongodb://'+mongo_uri + '/paloozaapi';
-}
-mongoose.connect(mgo);
+mongoose.connect(utility.config.database);
+
 
 var challengeSchema = mongoose.Schema({
 	// _id: BSON.ObjectID,
