@@ -3,7 +3,8 @@ var restify = require('restify'),
 	utility = require('./controllers/utility'),
 	challenge = require('./controllers/challenge'),
 	user = require('./controllers/user'),
-	cors = require('cors');
+	cors = require('cors'),
+	auth = require('./middleware/auth');
 
 var app = restify.createServer();
 
@@ -14,6 +15,7 @@ app.use(restify.bodyParser());
 app.get(/\/docs\/public\/?.*/, restify.serveStatic({
   directory: './'
 }));
+
 
 //Status
 app.get('/', utility.status);
@@ -31,9 +33,7 @@ app.put('/challenge', challenge.update);
 app.get('/user/:id', user.get);
 app.post('/user/auth', user.authenticate);
 app.post('/user', user.create);
-app.get('/users', user.getAll);
-
-
+app.get('/users', auth.jwt, user.getAll);
 
 var port = process.env.PORT;
 if (port === '' || port === undefined || port === null){
