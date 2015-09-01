@@ -1,4 +1,7 @@
-var user = require('../models/user');
+var user = require('../models/user'),
+	utility = require('../controllers/utility'),
+	jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+
 
 exports.create = function(req, res) {
 	var u = new user(req.body);
@@ -21,10 +24,19 @@ exports.get = function(req, res) {
 
 exports.authenticate = function(req, res) {
 	console.log(req.body.username);
-	user.findOne({'username':req.body.username}).then(function(user){
-		console.log(user);
-
-		res.send('done');
+	user.findOne({'username':req.body.username, 'password':req.body.password}).then(function(user){
+		if (!user){
+			res.send('no user');
+			return;
+		}
+		var token = jwt.sign(user, utility.config.secret, {
+          expiresInMinutes: 1440 // expires in 24 hours
+        });
+		res.json({
+          success: true,
+          message: 'Enjoy your token!',
+          token: token
+        });
 	});
 };
 

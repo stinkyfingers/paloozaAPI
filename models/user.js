@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
 	bson = require('bson'),
 	BSON = bson.BSONPure.BSON,
-	ObjectID = require('bson-objectid');
+	ObjectID = require('bson-objectid'),
+	jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var utility = require('../controllers/utility');
 var Schema = mongoose.Schema;
 
@@ -10,7 +11,7 @@ var userSchema = mongoose.Schema({
     username: String,
     password: String,
     admin: Boolean
-});
+},{collection:'users'});
 
 // utility.connect();
 // mongoose.connect(utility.config.database);

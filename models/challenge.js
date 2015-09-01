@@ -26,7 +26,7 @@ var challengeSchema = mongoose.Schema({
 		}]
 	}]
 
-});
+},{collection:'challenges'});
 
 challengeSchema.methods.findByName = function(c){
 	return this.model('Challenge').find({name: this.name});

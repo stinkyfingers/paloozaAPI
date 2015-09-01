@@ -3,7 +3,7 @@ var restify = require('restify'),
 	utility = require('./controllers/utility'),
 	challenge = require('./controllers/challenge'),
 	user = require('./controllers/user'),
-  	cors = require('cors');
+	cors = require('cors');
 
 var app = restify.createServer();
 
