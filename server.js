@@ -1,6 +1,6 @@
 
 var restify = require('restify'),
-	main = require('./main');
+	utility = require('./controllers/utility');
 	challenge = require('./controllers/challenge'),
   cors = require('cors');
 
@@ -15,7 +15,7 @@ app.get(/\/docs\/public\/?.*/, restify.serveStatic({
 }));
 
 
-app.get('/', main.test);
+app.get('/', utility.status);
 app.get('/challenges', challenge.findAll);
 app.post('/challenge/delete', challenge.remove);
 app.get('/challenge/:id', challenge.get);
