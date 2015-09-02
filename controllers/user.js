@@ -1,6 +1,7 @@
 var user = require('../models/user'),
 	utility = require('../controllers/utility'),
-	jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+	jwt    = require('jsonwebtoken'),
+	restify = require('restify'); // used to create, sign, and verify tokens
 
 
 exports.create = function(req, res) {
@@ -23,10 +24,9 @@ exports.get = function(req, res) {
 };
 
 exports.authenticate = function(req, res) {
-	console.log(req.body.username);
 	user.findOne({'username':req.body.username, 'password':req.body.password}).then(function(user){
 		if (!user){
-			res.send('no user');
+			res.send(new restify.errors.UnauthorizedError);
 			return;
 		}
 		var token = jwt.sign(user, utility.config.secret, {
