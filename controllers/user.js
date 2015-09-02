@@ -1,11 +1,13 @@
 var user = require('../models/user'),
 	utility = require('../controllers/utility'),
 	jwt    = require('jsonwebtoken'),
+	md5 = require('md5'),
 	restify = require('restify'); // used to create, sign, and verify tokens
 
 
 exports.create = function(req, res) {
 	var u = new user(req.body);
+	u.password = md5(u.password);
 	u.save(function(err){
 		if (err) throw err;
 	});
@@ -24,7 +26,9 @@ exports.get = function(req, res) {
 };
 
 exports.authenticate = function(req, res) {
-	user.findOne({'username':req.body.username, 'password':req.body.password}).then(function(user){
+	var u = new user(req.body);
+	u.password = md5(u.password);
+	user.findOne({'username':u.username, 'password':u.password}).then(function(user){
 		if (!user){
 			res.send(new restify.errors.UnauthorizedError);
 			return;
