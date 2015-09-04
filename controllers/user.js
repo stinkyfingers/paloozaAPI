@@ -1,4 +1,5 @@
 var user = require('../models/user'),
+	challenge = require('../models/challenge'),
 	utility = require('../controllers/utility'),
 	jwt    = require('jsonwebtoken'),
 	md5 = require('md5'),
@@ -8,6 +9,16 @@ var user = require('../models/user'),
 exports.create = function(req, res) {
 	var u = new user(req.body);
 	u.password = md5(u.password);
+	u.save(function(err){
+		if (err) throw err;
+	});
+	res.json(u);
+};
+
+exports.update = function(req, res) {
+	var u = new user(req.body);
+	u.password = md5(u.password);
+	u.isNew = false;
 	u.save(function(err){
 		if (err) throw err;
 	});
@@ -39,7 +50,8 @@ exports.authenticate = function(req, res) {
 		res.json({
           success: true,
           message: 'Enjoy your token!',
-          token: token
+          token: token,
+          user: user
         });
 	});
 };
@@ -51,3 +63,10 @@ exports.getAll = function(req, res) {
 		res.json(us);
 	});
 };
+
+// exports.getUserChallenges = function(req, res){
+// 	var u = user(req.body);
+// 	challenge.find({'_id':{'$in':[u.challenges]}}).then(function(cs){
+		
+// 	})
+// }

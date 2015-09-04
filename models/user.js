@@ -10,6 +10,8 @@ var Schema = mongoose.Schema;
 var userSchema = mongoose.Schema({
     username: String,
     password: String,
+    challenges: [],
+    token: String,
     admin: Boolean
 },{collection:'users'});
 

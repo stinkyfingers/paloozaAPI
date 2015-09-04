@@ -1,4 +1,5 @@
-var challenge = require('../models/challenge');
+var challenge = require('../models/challenge'),
+	user = require('../models/user');
 var utility = require('../controllers/utility');
 var mongoose = require('mongoose');
 
@@ -7,6 +8,14 @@ exports.create = function(req, res) {
 	c.save(function(err){
 		if (err) throw err;
 	});
+
+	var u = new user(req.user);
+	u.challenges.push(c._id);
+	u.isNew = false;
+	u.save(function(err){
+		if (err) throw err;
+	});
+
 	res.json(c);
 };
 
@@ -43,6 +52,7 @@ exports.findStatic = function(req, res) {
 };
 
 exports.update = function(req, res){
+	console.log('update u')
 	var c = new challenge(req.body);
 	c.isNew = false; //update rather than insert TODO try init()
 	c.save(function(err){
