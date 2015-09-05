@@ -10,7 +10,10 @@ var Schema = mongoose.Schema;
 var userSchema = mongoose.Schema({
     username: String,
     password: String,
-    challenges: [],
+    firstName: String,
+    lastName: String,
+    color: String,
+    challenges: [], //ids - for admin challenges only
     token: String,
     admin: Boolean
 },{collection:'users'});

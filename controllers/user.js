@@ -47,6 +47,11 @@ exports.authenticate = function(req, res) {
 		var token = jwt.sign(user, utility.config.secret, {
           expiresInMinutes: 1440 // expires in 24 hours
         });
+        user.token = token;
+        user.isNew = false;
+        user.save(function(err){
+        	if (err) return err;
+        });
 		res.json({
           success: true,
           message: 'Enjoy your token!',

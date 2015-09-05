@@ -52,7 +52,6 @@ exports.findStatic = function(req, res) {
 };
 
 exports.update = function(req, res){
-	console.log('update u')
 	var c = new challenge(req.body);
 	c.isNew = false; //update rather than insert TODO try init()
 	c.save(function(err){

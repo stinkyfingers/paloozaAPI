@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
 	bson = require('bson'),
+	user = require('./user'),
 	BSON = bson.BSONPure.BSON,
 	ObjectID = require('bson-objectid'),
 	utility = require('../controllers/utility');
@@ -11,7 +12,6 @@ mongoose.connect(utility.config.database);
 
 
 var challengeSchema = mongoose.Schema({
-	// _id: BSON.ObjectID,
 	name: String,
 	days: [{
 		name:String,
@@ -20,10 +20,7 @@ var challengeSchema = mongoose.Schema({
 			name:String,
 			address: String,
 		},
-		people: [{
-			firstName: String,
-			lastName: String
-		}]
+		people: []
 	}]
 
 },{collection:'challenges'});
