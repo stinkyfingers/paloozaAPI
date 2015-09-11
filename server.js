@@ -31,7 +31,7 @@ app.get('/challenge/:id', challenge.get);
 app.post('/challenge/find', challenge.find);
 app.post('/challenge/static', challenge.findStatic);
 app.post('/challenge', auth.admin, challenge.create);
-app.put('/challenge', auth.accessChallenge, challenge.update);
+app.put('/challenge', challenge.update);
 
 //user
 app.get('/user/:id', user.get);

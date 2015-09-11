@@ -5,7 +5,6 @@ var user = require('../models/user'),
 	md5 = require('md5'),
 	restify = require('restify'); // used to create, sign, and verify tokens
 
-
 exports.create = function(req, res) {
 	var u = new user(req.body);
 	u.password = md5(u.password);
@@ -22,13 +21,13 @@ exports.update = function(req, res) {
 		username: u.username,
 		firstName: u.firstName,
 		lastName: u.lastName,
-		color: u.color,
+		color: u.color
 	};
 	if (u.password !== null && u.password !== ''){
 		query.password = md5(u.password);
 	}
 	u.isNew = false;
-	user.update({id:u._id}, query, function(err){
+	user.update({_id:u._id}, query, function(err){
 		if (err) throw err;
 	});
 	u.password = null;
@@ -59,9 +58,8 @@ exports.authenticate = function(req, res) {
 		var token = jwt.sign(user, utility.config.secret, {
           expiresInMinutes: 1440 // expires in 24 hours
         });
-        user.token = token;
-        user.isNew = false;
-        user.save(function(err){
+
+        user.update({_id:user._id}, {$set:{token:token}}, function(err){
         	if (err) return err;
         });
         user.password = null;
@@ -85,10 +83,3 @@ exports.getAll = function(req, res) {
 		res.json(us);
 	});
 };
-
-// exports.getUserChallenges = function(req, res){
-// 	var u = user(req.body);
-// 	challenge.find({'_id':{'$in':[u.challenges]}}).then(function(cs){
-		
-// 	})
-// }
