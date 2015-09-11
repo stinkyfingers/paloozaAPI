@@ -67,6 +67,17 @@ challengeSchema.statics.updateUser = function(u){
 	});
 };
 
+challengeSchema.methods.convertPersonIDs = function(){
+	for (var j = 0 ; j < this.days.length; j++){
+		for (var k = 0; k < this.days[j].people.length; k++){
+			if (typeof(this.days[j].people[k]._id) !== 'object'){
+				this.days[j].people[k]._id = mongoose.Types.ObjectId(this.days[j].people[k]._id)
+			}
+		}
+	}
+	return;
+};
+
 var Challenge = mongoose.model('Challenge', challengeSchema);
 
 module.exports = Challenge;

@@ -1,7 +1,7 @@
 var challenge = require('../models/challenge'),
-	user = require('../models/user');
-var utility = require('../controllers/utility');
-var mongoose = require('mongoose');
+	user = require('../models/user'),
+	utility = require('../controllers/utility'),
+	mongoose = require('mongoose');
 
 exports.create = function(req, res) {
 	var c = new challenge(req.body);
@@ -54,6 +54,7 @@ exports.findStatic = function(req, res) {
 exports.update = function(req, res){
 	var c = new challenge(req.body);
 	c.isNew = false; //update rather than insert TODO try init()
+	c.convertPersonIDs();
 	c.save(function(err){
 		if (err) throw err;
 	});
@@ -67,3 +68,5 @@ exports.remove = function(req, res){
 	});
 	res.json(c);
 };
+
+
