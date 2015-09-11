@@ -31,6 +31,9 @@ exports.update = function(req, res) {
 		if (err) throw err;
 	});
 	u.password = null;
+
+	//TODO - update this user in challenge
+	challenge.updateUser(u);
 	res.json(u);
 };
 

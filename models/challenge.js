@@ -38,6 +38,35 @@ challengeSchema.statics.findById = function(id){
 	return this.model('Challenge').find({'_id':bid});
 };
 
+challengeSchema.statics.updateUser = function(u){
+	this.model('Challenge').find({}, function(err, challenges){
+		if (err) throw err;
+	
+		for (var i = 0; i < challenges.length; i++){
+			for (var j = 0 ; j < challenges[i].days.length; j++){
+				for (var k = 0; k < challenges[i].days[j].people.length; k++){
+					if ((typeof(challenges[i].days[j].people[k]._id) !== 'object') || (typeof(u._id) !== 'object')){ //Hmmm...
+						continue;
+					}
+					if (challenges[i].days[j].people[k]._id.toHexString() === u._id.toHexString()){
+						challenges[i].days[j].people[k] = u;
+						challenges[i].flag = true;
+					}
+				}	
+			}
+		}
+
+		for (var i = 0; i < challenges.length; i++){
+			if (challenges[i].flag === true){
+				challenges[i].flag = null;
+				this.update({_id: challenges[i]._id},{days: challenges[i].days},function(err){
+					if (err) throw err;
+				});
+			}
+		} 
+	});
+};
+
 var Challenge = mongoose.model('Challenge', challengeSchema);
 
 module.exports = Challenge;
