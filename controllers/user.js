@@ -3,6 +3,7 @@ var user = require('../models/user'),
 	utility = require('../controllers/utility'),
 	jwt    = require('jsonwebtoken'),
 	md5 = require('md5'),
+	ObjectID = require('bson-objectid'),
 	restify = require('restify'); // used to create, sign, and verify tokens
 
 exports.create = function(req, res) {
@@ -57,22 +58,24 @@ exports.authenticate = function(req, res) {
 			res.send(new restify.errors.UnauthorizedError);
 			return;
 		}
-		user.token = null;
-		var token = jwt.sign(user, utility.config.secret, {
+		user.token = jwt.sign(user, utility.config.secret, {
           expiresInMinutes: 1440 // expires in 24 hours
         });
-
-        user.update({_id:user._id}, {$set:{token:token}}, function(err){
-        	if (err) return err;
-        });
-        user.password = null;
-
+		user.password = u.password;
+		user.save(function(err){
+			if (err){
+				res.send(new restify.errors.UnauthorizedError);
+				return;
+			}
+        	user.password = null;
+        			
+		});
 		res.json({
           success: true,
           message: 'Enjoy your token!',
-          token: token,
+          token: user.token,
           user: user
-        });
+        });	
 	});
 };
 

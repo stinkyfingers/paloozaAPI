@@ -38,6 +38,7 @@ exports.accessChallenge = function(req, res, next){
 
 exports.admin = function(req, res, next){
 	var token = getToken(req.headers.authorization);
+	console.log(token);
 	if (token === null || token === undefined || token === ''){
 		return next (new restify.errors.InternalServerError('No token'));
 	}

@@ -2,6 +2,7 @@
 var restify = require('restify'),
 	utility = require('./controllers/utility'),
 	challenge = require('./controllers/challenge'),
+	potluck = require('./controllers/potluck'),
 	user = require('./controllers/user'),
 	cors = require('cors'),
 	auth = require('./middleware/auth');
@@ -32,6 +33,15 @@ app.post('/challenge/find', challenge.find);
 app.post('/challenge/static', challenge.findStatic);
 app.post('/challenge', auth.admin, challenge.create);
 app.put('/challenge', challenge.update);
+
+//Potlucks
+app.get('/potlucks', potluck.findAll);
+app.post('/potluck/delete',auth.accessChallenge, potluck.remove);
+app.get('/potluck/:id', potluck.get);
+app.post('/potluck/find', potluck.find);
+app.post('/potluck/static', potluck.findStatic);
+app.post('/potluck', auth.admin, potluck.create);
+app.put('/potluck', potluck.update);
 
 //user
 app.get('/user/:id', user.get);
