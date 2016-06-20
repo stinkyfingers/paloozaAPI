@@ -12,11 +12,11 @@ var mongo = require('mongodb');
 
 var potluckSchema = mongoose.Schema({
 	name: String,
-	data: Date,
-	dishes: {
+	date: Date,
+	dishes: [{
 		user: Object,
 		dish: String,
-	}
+	}]
 }, {collection: 'potlucks'});
 
 potluckSchema.methods.findByName = function(c){
@@ -61,8 +61,8 @@ potluckSchema.statics.updateUser = function(u){
 
 potluckSchema.methods.convertPersonIDs = function(){
 	for (var j = 0 ; j < this.dishes.length; j++){
-		if (typeof(this.days[j].user._id) !== 'object'){
-			this.days[j].user._id = mongoose.Types.ObjectId(this.days[j].user._id)
+		if (typeof(this.dishes[j].user._id) !== 'object'){
+			this.dishes[j].user._id = mongoose.Types.ObjectId(this.dishes[j].user._id)
 		}
 	}
 	return;
